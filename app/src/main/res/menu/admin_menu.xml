@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/action_add"
+        android:title="Add Post"
+        app:showAsAction="always"
+        android:icon="@drawable/add_icon"></item>
+
+    <item android:id="@+id/action_search"
+        android:title="Add Post"
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_search_white_24dp"></item>
+
+    <item android:id="@+id/action_logout"
+        android:title="logout"
+        app:showAsAction="always"
+        android:icon="@mipmap/ic_exit_to_app_white_24dp"></item>
+</menu>

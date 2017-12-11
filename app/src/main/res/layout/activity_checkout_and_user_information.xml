@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androidbasebokstore.CheckoutAndUserInformation">
+
+    <TextView
+        android:id="@+id/txt_shipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Shiping Adress"
+        android:textSize="16sp"
+        android:textColor="@color/primary_dark"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/et_Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/txt_shipping"
+        android:textAlignment="center"
+        android:hint="Your Name"
+        android:textColor="#000000"
+        android:background="@drawable/edittext_style"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/et_Adress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/et_Name"
+        android:textAlignment="center"
+        android:hint="Adress"
+        android:textColor="#000000"
+        android:background="@drawable/edittext_style"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/et_City"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/et_Adress"
+        android:textAlignment="center"
+        android:hint="City"
+        android:textColor="#000000"
+        android:background="@drawable/edittext_style"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/et_Phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/et_City"
+        android:textAlignment="center"
+        android:hint="Phone"
+        android:textColor="#000000"
+        android:background="@drawable/edittext_style"
+        android:inputType="textEmailAddress"/>
+
+    <Button
+        android:id="@+id/btn_submitAdress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/round"
+        android:text="Submit Adress"/>
+
+</RelativeLayout>

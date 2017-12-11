@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androidbasebokstore.UserConfirmOrder">
+
+    <TextView
+        android:id="@+id/txt_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Bill"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:textColor="@color/primary_dark"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/noOfBooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total books"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/txt_bill"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/primary_dark"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_noOfBooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total books"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/noOfBooks"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Price"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/noOfBooks"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/primary_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total books"
+        android:layout_marginRight="30dp"
+        android:layout_alignBaseline="@+id/txt_noOfBooks"
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/btn_confirmOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Confirm Order"
+        android:background="@color/primary_dark"/>
+
+</RelativeLayout>
