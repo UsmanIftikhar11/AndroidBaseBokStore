@@ -41,7 +41,9 @@
         <activity android:name=".MyOrders" />
         <activity android:name=".ContactUs" />
         <activity android:name=".AdminBookReview" />
-        <activity android:name=".AdminOrders"></activity>
+        <activity android:name=".AdminOrders" />
+        <activity android:name=".AdminSingleOrderDetails" />
+        <activity android:name=".SingleOrderDetails"></activity>
     </application>
 
 </manifest>

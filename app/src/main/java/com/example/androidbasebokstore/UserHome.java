@@ -10,8 +10,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,12 +23,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,13 +41,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class UserHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth ;
     private FirebaseAuth.AuthStateListener mAuthListner ;
 
-    private RecyclerView mBookList ;
+    private GridLayout mBookList ;
+    CustomAdapter adapter ;
     private DatabaseReference mDatabase ;
 
     @Override
@@ -54,9 +64,14 @@ public class UserHome extends AppCompatActivity
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Category");
 
-        mBookList = (RecyclerView)findViewById(R.id.user_categoryList);
-        mBookList.setHasFixedSize(true);
-        mBookList.setLayoutManager(new LinearLayoutManager(this));
+        mBookList = (GridLayout)findViewById(R.id.grid);
+
+        gridLayoutClick(mBookList) ;
+        //mBookList.setHasFixedSize(true);
+        //mBookList.setLayoutManager(new LinearLayoutManager(this));
+
+        //adapter = new CustomAdapter(this , retreive());
+        //mBookList.setAdapter(adapter);
 
         mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -85,13 +100,127 @@ public class UserHome extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void gridLayoutClick(GridLayout mBookList) {
+
+        for(int i = 0 ; i < mBookList.getChildCount() ; i++){
+
+            CardView cardView = (CardView) mBookList.getChildAt(i);
+            final int finalI = i;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(UserHome.this , SingleCategoryBooks.class);
+                    if (finalI == 0){
+                        intent.putExtra("Category" , "Art");
+                    }
+                    else if(finalI == 1){
+                        intent.putExtra("Category" , "Action and Adventure");
+                    }
+                    else if(finalI == 2){
+                        intent.putExtra("Category" , "Children's");
+                    }
+                    else if(finalI == 3){
+                        intent.putExtra("Category" , "Drama");
+                    }
+                    else if(finalI == 4){
+                        intent.putExtra("Category" , "Guide");
+                    }
+                    else if(finalI == 5){
+                        intent.putExtra("Category" , "Health");
+                    }
+                    else if(finalI == 6){
+                        intent.putExtra("Category" , "History");
+                    }
+                    else if(finalI == 7){
+                        intent.putExtra("Category" , "Horror");
+                    }
+                    else if(finalI == 8){
+                        intent.putExtra("Category" , "Math");
+                    }
+                    else if(finalI == 9){
+                        intent.putExtra("Category" , "Mystery");
+                    }
+                    else if(finalI == 10){
+                        intent.putExtra("Category" , "Poetry");
+                    }
+                    else if(finalI == 11){
+                        intent.putExtra("Category" , "Romance");
+                    }
+                    else if(finalI == 12){
+                        intent.putExtra("Category" , "Science");
+                    }
+                    else if(finalI == 13){
+                        intent.putExtra("Category" , "Science Fiction");
+                    }
+                    else if(finalI == 14){
+                        intent.putExtra("Category" , "Sports");
+                    }
+                    else if(finalI == 15){
+                        intent.putExtra("Category" , "Travel");
+                    }
+                    else {
+                        intent.putExtra("Category" , "Others");
+                    }
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    /*private void fetchData (DataSnapshot dataSnapshot){
+
+        category.clear();
+
+        for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+             Variables variables = ds.getValue(Variables.class);
+            category.add(variables);
+        }
+    }
+
+    public ArrayList<Variables> retreive(){
+
+        //DatabaseReference db = null;
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                fetchData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                fetchData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return category ;
+    }*/
+
+
+
     @Override
     protected void onStart() {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListner);
 
-        FirebaseRecyclerAdapter<Variables , UserBookViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Variables, UserBookViewHolder>(
+        /*FirebaseRecyclerAdapter<Variables , UserBookViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Variables, UserBookViewHolder>(
 
                 Variables.class ,
                 R.layout.category_row ,
@@ -121,10 +250,10 @@ public class UserHome extends AppCompatActivity
 
             }
         };
-        mBookList.setAdapter(firebaseRecyclerAdapter);
+        mBookList.setAdapter((ListAdapter) firebaseRecyclerAdapter);*/
     }
 
-    public static class UserBookViewHolder extends RecyclerView.ViewHolder{
+    /*public static class UserBookViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
 
@@ -137,7 +266,7 @@ public class UserHome extends AppCompatActivity
             TextView post_category = (TextView)mView.findViewById(R.id.txt_singleCategory);
             post_category.setText(category);
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

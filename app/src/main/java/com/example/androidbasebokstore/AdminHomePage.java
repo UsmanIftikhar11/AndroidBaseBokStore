@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,12 +41,12 @@ public class AdminHomePage extends AppCompatActivity {
     private FirebaseAuth mAuth ;
     private FirebaseAuth.AuthStateListener mAuthListner ;
 
-    private RecyclerView mBookList ;
+    private GridLayout mBookList ;
     private DatabaseReference mDatabase ;
     private DatabaseReference mDatabaseCurrentUser ;
     private static  String product_key ;
 
-    private Button btn_orders ;
+    private ImageButton btn_orders ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,10 @@ public class AdminHomePage extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Category");
 
-        mBookList = (RecyclerView)findViewById(R.id.book_list);
-        mBookList.setHasFixedSize(true);
-        mBookList.setLayoutManager(new LinearLayoutManager(this));
+        mBookList = (GridLayout)findViewById(R.id.adminGrid);
+        gridLayoutClick(mBookList) ;
 
-        btn_orders = (Button)findViewById(R.id.btn_orders);
+        btn_orders = (ImageButton)findViewById(R.id.btn_orders);
 
         btn_orders.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +87,80 @@ public class AdminHomePage extends AppCompatActivity {
 
     }
 
+    private void gridLayoutClick(GridLayout mBookList) {
+
+        for(int i = 0 ; i < mBookList.getChildCount() ; i++){
+
+            CardView cardView = (CardView) mBookList.getChildAt(i);
+            final int finalI = i;
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(AdminHomePage.this , AdminSingleCategoryBooks.class);
+                    if (finalI == 0){
+                        intent.putExtra("Category" , "Art");
+                    }
+                    else if(finalI == 1){
+                        intent.putExtra("Category" , "Action and Adventure");
+                    }
+                    else if(finalI == 2){
+                        intent.putExtra("Category" , "Children's");
+                    }
+                    else if(finalI == 3){
+                        intent.putExtra("Category" , "Drama");
+                    }
+                    else if(finalI == 4){
+                        intent.putExtra("Category" , "Guide");
+                    }
+                    else if(finalI == 5){
+                        intent.putExtra("Category" , "Health");
+                    }
+                    else if(finalI == 6){
+                        intent.putExtra("Category" , "History");
+                    }
+                    else if(finalI == 7){
+                        intent.putExtra("Category" , "Horror");
+                    }
+                    else if(finalI == 8){
+                        intent.putExtra("Category" , "Math");
+                    }
+                    else if(finalI == 9){
+                        intent.putExtra("Category" , "Mystery");
+                    }
+                    else if(finalI == 10){
+                        intent.putExtra("Category" , "Poetry");
+                    }
+                    else if(finalI == 11){
+                        intent.putExtra("Category" , "Romance");
+                    }
+                    else if(finalI == 12){
+                        intent.putExtra("Category" , "Science");
+                    }
+                    else if(finalI == 13){
+                        intent.putExtra("Category" , "Science Fiction");
+                    }
+                    else if(finalI == 14){
+                        intent.putExtra("Category" , "Sports");
+                    }
+                    else if(finalI == 15){
+                        intent.putExtra("Category" , "Travel");
+                    }
+                    else {
+                        intent.putExtra("Category" , "Others");
+                    }
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListner);
 
-        FirebaseRecyclerAdapter<Variables , CategoryViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Variables, CategoryViewHolder>(
+        /*FirebaseRecyclerAdapter<Variables , CategoryViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Variables, CategoryViewHolder>(
 
                 Variables.class ,
                 R.layout.category_row ,
@@ -122,10 +190,10 @@ public class AdminHomePage extends AppCompatActivity {
 
             }
         };
-        mBookList.setAdapter(firebaseRecyclerAdapter);
+        mBookList.setAdapter(firebaseRecyclerAdapter);*/
     }
 
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder{
+    /*public static class CategoryViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
 
@@ -138,7 +206,7 @@ public class AdminHomePage extends AppCompatActivity {
             TextView post_category = (TextView)mView.findViewById(R.id.txt_singleCategory);
             post_category.setText(category);
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

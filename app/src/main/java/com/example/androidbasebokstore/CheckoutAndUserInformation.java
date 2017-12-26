@@ -23,7 +23,7 @@ public class CheckoutAndUserInformation extends AppCompatActivity {
     private EditText et_Name , et_Adress , et_City , et_Phone ;
     private Button btn_submitAdress ;
 
-    private String orderNo ;
+    private String orderNo , totalBooks , totalPrice ;
     private String Name , Address , City , Phone ;
 
     private DatabaseReference mDatabaseAdress ;
@@ -40,7 +40,9 @@ public class CheckoutAndUserInformation extends AppCompatActivity {
         et_Phone = (EditText)findViewById(R.id.et_Phone);
         btn_submitAdress = (Button)findViewById(R.id.btn_submitAdress);
 
-        orderNo = getIntent().getExtras().getString("orderNo") ;
+        orderNo = getIntent().getExtras().getString("orderNo");
+        totalBooks = getIntent().getExtras().getString("totalBooks");
+        totalPrice = getIntent().getExtras().getString("totalPrice");
 
         mAuth = FirebaseAuth.getInstance() ;
         mDatabaseAdress = FirebaseDatabase.getInstance().getReference().child("CreatedOrders").child(orderNo);
@@ -57,30 +59,28 @@ public class CheckoutAndUserInformation extends AppCompatActivity {
 
                 if(!TextUtils.isEmpty(Name) && !TextUtils.isEmpty(Address) && !TextUtils.isEmpty(City) && !TextUtils.isEmpty(Phone)){
 
-                    mDatabaseAdress.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            mDatabaseAdress.child("Name").setValue(Name);
-                            mDatabaseAdress.child("Address").setValue(Address);
-                            mDatabaseAdress.child("City").setValue(City);
-                            mDatabaseAdress.child("Phone").setValue(Phone).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Intent intent = new Intent(CheckoutAndUserInformation.this , UserConfirmOrder.class);
-                                    intent.putExtra("orderNo" , orderNo);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
+                    Intent intent = new Intent(CheckoutAndUserInformation.this , UserConfirmOrder.class);
+                    intent.putExtra("orderNo" , orderNo);
+                    intent.putExtra("totalBooks" , totalBooks);
+                    intent.putExtra("totalPrice" , totalPrice);
+                    intent.putExtra("Name" , Name);
+                    intent.putExtra("Adress" , Address);
+                    intent.putExtra("City" , City);
+                    intent.putExtra("Phone" , Phone);
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    startActivity(intent);
                 }
             }
         });
 
     }
+
+    /*@Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+        Intent intent = new Intent(CheckoutAndUserInformation.this , BookCart.class) ;
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }*/
 }

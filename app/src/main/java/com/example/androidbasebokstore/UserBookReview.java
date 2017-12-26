@@ -113,9 +113,7 @@ public class UserBookReview extends AppCompatActivity {
             protected void populateViewHolder(ProductViewHolder viewHolder, final Variables model, int position) {
 
                 viewHolder.setName(model.getName());
-                viewHolder.setPostedBy(model.getPostedBy());
-
-
+                viewHolder.setPostedBy(model.getComment());
 
             }
         };

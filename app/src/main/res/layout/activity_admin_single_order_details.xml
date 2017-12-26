@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.androidbasebokstore.AdminSingleOrderDetails">
+
+    <TextView
+        android:id="@+id/txt_orderNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Order Number" />
+
+    <TextView
+        android:id="@+id/txt_orderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_orderNo"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Order Status" />
+
+    <RadioGroup
+        android:id="@+id/radio_grp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/txt_orderNo"
+        android:layout_marginRight="10dp">
+
+        <RadioButton
+            android:id="@+id/radioBtn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm order"
+            android:onClick="onClick"/>
+
+        <RadioButton
+            android:id="@+id/radioBtn_delivered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Deleivered"
+            android:onClick="onClick"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/txt_booksDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_orderStatus"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:text="Books Details" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/booksDetail_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt_booksDetails"
+        android:layout_above="@+id/txt_books">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txt_orderPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Phone"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/txt_Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/txt_orderPhone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Address"
+        android:paddingRight="5dp"/>
+
+    <TextView
+        android:id="@+id/txt_orderBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/txt_Address"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/txt_books"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/txt_orderBy"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Total books" />
+
+    <TextView
+        android:id="@+id/txt_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/txt_orderBy"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Total bill"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>

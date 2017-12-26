@@ -54,7 +54,7 @@ public class BookCart extends AppCompatActivity {
         String curretnUserId = mAuth.getCurrentUser().getUid();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Cart").child(curretnUserId);
-        mDatabaseCreatedOrders = FirebaseDatabase.getInstance().getReference().child("CreatedOrders").child(orderNumber);
+        //mDatabaseCreatedOrders = FirebaseDatabase.getInstance().getReference().child("CreatedOrders").child(orderNumber);
 
         mCartList = (RecyclerView)findViewById(R.id.cart_list);
         mCartList.setHasFixedSize(true);
@@ -91,13 +91,15 @@ public class BookCart extends AppCompatActivity {
                     else {
 
                         //DatabaseReference mDatabaseBill = mDatabaseCreatedOrders.child(mAuth.getCurrentUser().getUid());
-                        mDatabaseCreatedOrders.child("TotalBooks").setValue(books);
-                        mDatabaseCreatedOrders.child("TotalPrice").setValue(bookPrice);
+                        //mDatabaseCreatedOrders.child("TotalBooks").setValue(books);
+                        //mDatabaseCreatedOrders.child("TotalPrice").setValue(bookPrice);
 
                         //String orderNo = getSaltString() ;
 
                         Intent intent = new Intent(BookCart.this, CheckoutAndUserInformation.class);
                         intent.putExtra("orderNo" , orderNumber);
+                        intent.putExtra("totalBooks" , String.valueOf(books));
+                        intent.putExtra("totalPrice" , String.valueOf(bookPrice));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
@@ -124,7 +126,7 @@ public class BookCart extends AppCompatActivity {
                 product_key = getRef(position).getKey();
 
                 final DatabaseReference mDatabaseCart = mDatabase.child(product_key);
-                final DatabaseReference mDatabsePushOrder = mDatabaseCreatedOrders.child(product_key);
+                //final DatabaseReference mDatabsePushOrder = mDatabaseCreatedOrders.child(product_key);
 
                 viewHolder.setBookTitle(model.getBookTitle());
                 viewHolder.setAuthorName(model.getAuthorName());
@@ -132,10 +134,6 @@ public class BookCart extends AppCompatActivity {
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setCategory(model.getCategory());
                 viewHolder.setImage(getApplicationContext() , model.getImage());
-
-                //bookId = product_key;
-
-                //recreate();
 
                 bookPrice = bookPrice + model.getPrice() ;
 
@@ -145,7 +143,7 @@ public class BookCart extends AppCompatActivity {
                 txt_totalPrice.setText("Rs. " + bookPrice);
 
 
-                mDatabaseCreatedOrders.child(product_key).setValue("Ordered");
+                //mDatabaseCreatedOrders.child(product_key).setValue("Ordered");
                 //mDatabsePushOrder.child("TotalBooks").setValue(txt_totalBooks);
                 //mDatabsePushOrder.child("TotlaPrice").setValue(txt_totalPrice);
 
@@ -153,7 +151,7 @@ public class BookCart extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         mDatabaseCart.removeValue();
-                        mDatabsePushOrder.removeValue();
+                        //mDatabsePushOrder.removeValue();
                         //finish();
                         //startActivity(getIntent());
                         recreate();
@@ -162,6 +160,13 @@ public class BookCart extends AppCompatActivity {
             }
         };
         mCartList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        recreate();
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder{

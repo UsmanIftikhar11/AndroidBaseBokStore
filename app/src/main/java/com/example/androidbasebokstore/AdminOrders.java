@@ -71,19 +71,19 @@ public class AdminOrders extends AppCompatActivity {
 
                 product_key = getRef(position).getKey();
 
-                viewHolder.setOrderNumber(model.getOrderNumber());
+                viewHolder.setOrderNo(model.getOrderNo());
 
 
-                /*viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Toast.makeText(getApplicationContext() , "Whole click" , Toast.LENGTH_LONG).show();
-                        Intent singleProduct = new Intent(AdminHomePage.this , AdminSingleCategoryBooks.class);
-                        singleProduct.putExtra("Category" , model.getCategory());
-
+                        Intent singleProduct = new Intent(AdminOrders.this , AdminSingleOrderDetails.class);
+                        singleProduct.putExtra("orderNo" , model.getOrderNo());
+                        singleProduct.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(singleProduct);
                     }
-                });*/
+                });
 
 
 
@@ -101,9 +101,9 @@ public class AdminOrders extends AppCompatActivity {
             mView = itemView;
         }
 
-        public void setOrderNumber(String orderNumber){
+        public void setOrderNo(String orderNo){
             TextView post_order = (TextView)mView.findViewById(R.id.txt_singleCategory);
-            post_order.setText(orderNumber);
+            post_order.setText(orderNo);
         }
     }
 }

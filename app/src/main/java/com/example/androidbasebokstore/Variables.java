@@ -6,7 +6,7 @@ package com.example.androidbasebokstore;
 
 public class Variables {
 
-    private String BookTitle, AuthorName  , Image , TotalPages , Category , Comment , name , PostedBy , OrderNumber;
+    private String BookTitle, AuthorName  , Image , TotalPages , Category , Comment , name , PostedBy , OrderNumber , OrderNo;
 
     private int Price;
 
@@ -15,8 +15,7 @@ public class Variables {
 
     }
 
-
-    public Variables(String bookTitle, String authorName, String image, String totalPages, String category, String comment, String name, String postedBy, String orderNumber, int price) {
+    public Variables(String bookTitle, String authorName, String image, String totalPages, String category, String comment, String name, String postedBy, String orderNumber, String orderNo, int price) {
         BookTitle = bookTitle;
         AuthorName = authorName;
         Image = image;
@@ -26,6 +25,7 @@ public class Variables {
         this.name = name;
         PostedBy = postedBy;
         OrderNumber = orderNumber;
+        OrderNo = orderNo;
         Price = price;
     }
 
@@ -107,5 +107,13 @@ public class Variables {
 
     public void setOrderNumber(String orderNumber) {
         OrderNumber = orderNumber;
+    }
+
+    public String getOrderNo() {
+        return OrderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        OrderNo = orderNo;
     }
 }

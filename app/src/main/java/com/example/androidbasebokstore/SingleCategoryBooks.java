@@ -92,7 +92,7 @@ public class SingleCategoryBooks extends AppCompatActivity {
             @Override
             protected void populateViewHolder(UserSingleBookViewHolder viewHolder, final Variables model, int position) {
 
-                product_key = getRef(position).getKey();
+                final String product_key = getRef(position).getKey();
 
                 final DatabaseReference mDatabaseWishlistProduct = mDatabaseWishlist.child(product_key);
                 final DatabaseReference mDatabaseBookCart = mDatabaseCart.child(product_key);
@@ -105,7 +105,7 @@ public class SingleCategoryBooks extends AppCompatActivity {
                 viewHolder.setPrice(model.getPrice());
                 viewHolder.setCategory(model.getCategory());
                 viewHolder.setImage(getApplicationContext() , model.getImage());
-                viewHolder.setwishListBtn(product_key , model.getBookTitle());
+                viewHolder.setwishListBtn(product_key);
 
                 viewHolder.btn_wishlist.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -208,7 +208,7 @@ public class SingleCategoryBooks extends AppCompatActivity {
         ImageButton btn_wishlist , btn_addCart , btn_comments ;
         Context context ;
 
-        DatabaseReference mDatabaseWishList , mDatabaseBookCart ;
+        DatabaseReference mDatabaseWishList , mDatabasebookCart , mWishlistChild , mCartChild ;
         FirebaseAuth mAuth ;
 
         public UserSingleBookViewHolder(View itemView) {
@@ -219,12 +219,16 @@ public class SingleCategoryBooks extends AppCompatActivity {
             btn_addCart = (ImageButton)mView.findViewById(R.id.img_btn_addCart);
             btn_comments = (ImageButton)mView.findViewById(R.id.img_btn_Comments);
 
-            mDatabaseWishList = FirebaseDatabase.getInstance().getReference().child("WishList").child(currentUserId);
-            mDatabaseBookCart = FirebaseDatabase.getInstance().getReference().child("Cart").child(currentUserId);
             mAuth = FirebaseAuth.getInstance();
+            mDatabaseWishList = FirebaseDatabase.getInstance().getReference().child("WishList");
+            mDatabasebookCart = FirebaseDatabase.getInstance().getReference().child("Cart");
+
+            mWishlistChild = mDatabaseWishList.child(currentUserId);
+            mCartChild = mDatabasebookCart.child(currentUserId);
+
 
             mDatabaseWishList.keepSynced(true);
-            mDatabaseBookCart.keepSynced(true);
+            mDatabasebookCart.keepSynced(true);
 
         }
 
@@ -253,13 +257,13 @@ public class SingleCategoryBooks extends AppCompatActivity {
             Picasso.with(ctx).load(image).into(post_img);
         }
 
-        public void setwishListBtn(final String product_key , final String title){
+        public void setwishListBtn(final String product_key1){
 
-            mDatabaseWishList.addValueEventListener(new ValueEventListener() {
+            mWishlistChild.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if(dataSnapshot.hasChild(product_key)){
+                    if(dataSnapshot.child(product_key1).hasChild("BookTitle")){
 
                         btn_wishlist.setImageResource(R.drawable.bookmark_check);
                     }
@@ -274,10 +278,10 @@ public class SingleCategoryBooks extends AppCompatActivity {
                 }
             });
 
-            mDatabaseBookCart.addValueEventListener(new ValueEventListener() {
+            mCartChild.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChild(product_key)){
+                    if(dataSnapshot.child(product_key1).hasChild("BookTitle")){
 
                         btn_addCart.setImageResource(R.mipmap.ic_remove_shopping_cart_black_24dp);
                     }

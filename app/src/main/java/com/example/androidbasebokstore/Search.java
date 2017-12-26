@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Picasso;
 
 public class Search extends AppCompatActivity {
@@ -31,6 +34,9 @@ public class Search extends AppCompatActivity {
 
     private EditText edit_search ;
     private Button btn_search ;
+
+    MaterialSpinner searchSpinner ;
+    private String spinnerString ;
 
     private String searchString ;
     private static String currentUser ;
@@ -44,10 +50,6 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mBookList = (RecyclerView)findViewById(R.id.userBookSearch_list);
-        mBookList.setHasFixedSize(true);
-        mBookList.setLayoutManager(new LinearLayoutManager(this));
-
         mAuth = FirebaseAuth.getInstance();
 
         currentUser = mAuth.getCurrentUser().getUid() ;
@@ -55,10 +57,50 @@ public class Search extends AppCompatActivity {
         mDatabaseWishlist = FirebaseDatabase.getInstance().getReference().child("WishList").child(currentUser);
         mDatabaseWishlist.keepSynced(true);
 
-
-
         edit_search = (EditText)findViewById(R.id.et_userSearch);
         btn_search = (Button)findViewById(R.id.btn_userSearch);
+        mBookList = (RecyclerView)findViewById(R.id.userBookSearch_list);
+
+
+        searchSpinner = (MaterialSpinner) findViewById(R.id.search_spinner);
+        searchSpinner.setItems("Search By" , "Title" , "Author" , "price low to high" , "price high to low" );
+
+        searchSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                if(item.toString()=="Title")
+                {
+                    spinnerString = "title" ;
+                    mBookList.setHasFixedSize(true);
+                    mBookList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                }
+                else if (item.toString()=="Author")
+                {
+                    spinnerString = "author" ;
+                    mBookList.setHasFixedSize(true);
+                    mBookList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                }
+                else if (item.toString()=="price low to high")
+                {
+                    spinnerString = "low" ;
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    mBookList.setHasFixedSize(true);
+                    mBookList.setLayoutManager(layoutManager);
+                }
+                else if (item.toString()=="price high to low")
+                {
+                    spinnerString = "high" ;
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    layoutManager.setReverseLayout(true);
+                    layoutManager.setStackFromEnd(true);
+                    mBookList.setHasFixedSize(true);
+                    mBookList.setLayoutManager(layoutManager);
+                }
+                else {
+                    spinnerString = null ;
+                }
+            }
+        });
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +108,22 @@ public class Search extends AppCompatActivity {
 
                 searchString = edit_search.getText().toString().toLowerCase();
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("Books");
-                mQueryUser = mDatabase.orderByChild("BookTitle").startAt(searchString).endAt(searchString + "~");
+
+                if(!TextUtils.isEmpty(searchString) && spinnerString == "title"){
+                    mQueryUser = mDatabase.orderByChild("BookTitle").startAt(searchString).endAt(searchString + "~");
+                }
+                else if(!TextUtils.isEmpty(searchString) && spinnerString == "author"){
+                    mQueryUser = mDatabase.orderByChild("AuthorName").startAt(searchString).endAt(searchString + "~");
+                }
+                else if(spinnerString == "low"){
+                    mQueryUser = mDatabase.orderByChild("Price");
+                }
+                else if(spinnerString == "high"){
+                    mQueryUser = mDatabase.orderByChild("Price");
+                }
+                else {
+                    Toast.makeText(getApplicationContext() , "Input search & select search type" , Toast.LENGTH_LONG).show();
+                }
 
                 FirebaseRecyclerAdapter<Variables , UserSearchBookViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Variables, UserSearchBookViewHolder>(
 
@@ -169,7 +226,7 @@ public class Search extends AppCompatActivity {
         }
         public void setPrice(int price){
             TextView post_price = (TextView)mView.findViewById(R.id.post_BookPrice);
-            post_price.setText(price);
+            post_price.setText("Rs. " + price);
         }
         public void setTotalPages(String totalPages){
             TextView post_totalPages = (TextView)mView.findViewById(R.id.post_TotalPages);
